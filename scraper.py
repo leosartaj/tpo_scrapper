@@ -117,10 +117,7 @@ def package_value(value):
         if ans:
             if ans < 100:
                 ans *= 10**5
-            if ans > 1000 and ans < 10000:
-                ans *= 10**4
             return ans
-
     return value
 
 
@@ -144,6 +141,7 @@ def process_packages(df):
     df.loc[:, packages] = df[packages].replace('Inclusive of 20% variable pay', np.nan)
 
     df.loc[:, packages] = df[packages].apply(package_value_series)
+    df.loc[df.company_name == 'VMWare', ['idd_imd_ctc', 'btech_ctc']] = [2202108, 2202108]
     df.loc[:, packages] = df[packages].astype(np.float64)
 
     return df

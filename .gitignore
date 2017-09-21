@@ -3,3 +3,4 @@ notebooks/.ipynb_checkpoints/*
 notebooks/*.pyc
 .ipynb_checkpoints/*
 .nbgrader.log
+__pycache__/*
