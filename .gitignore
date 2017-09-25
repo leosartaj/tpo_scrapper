@@ -4,3 +4,4 @@ notebooks/*.pyc
 .ipynb_checkpoints/*
 .nbgrader.log
 __pycache__/*
+*.csv
