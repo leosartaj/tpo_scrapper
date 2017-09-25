@@ -5,8 +5,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-ID = 'tpo.notification123@gmail.com'
-PASSWORD = 'Superkid@123'
+ID = ''
+PASSWORD = ''
 HOST = 'smtp.gmail.com:587'
 
 
