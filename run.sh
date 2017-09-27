@@ -1,5 +1,5 @@
 #! /bin/sh
 
-python scraper.py
-python notification.py
-python email_helper.py
+python scripts/scraper.py
+python scripts/notification.py
+python scripts/email_helper.py
