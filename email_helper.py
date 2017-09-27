@@ -49,7 +49,7 @@ def subject_msg(company_name):
 def send_emails(host, email_id, password, subscribers):
     with login(host, email_id, password) as server:
         for subscriber, dept in get_subscribers(subscribers):
-            df = pd.read_csv('willingness_{}.csv'.format(dept))
+            df = pd.read_csv('data/willingness_{}.csv'.format(dept))
             df = df[df['email_count_willingness'] < 2]
             df.loc[:, 'email_count_willingness'] += 1
             df.loc[:, 'subjects'] = df['company_name'].apply(lambda x: subject_msg(x))

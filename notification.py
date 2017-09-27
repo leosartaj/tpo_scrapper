@@ -41,13 +41,13 @@ def create_emails(df):
 
 
 def create_notifications():
-    df = read_df('companies.csv')
+    df = read_df('data/companies.csv')
     depts = ['mat', 'bce']
     for dept in depts:
         df = create_notification_df(df, dept, 'willingness_deadline', suffix='willingness')
         if dept == 'mat':
             dept = 'apm'
-        df.to_csv('willingness_{}.csv'.format(dept), index=False)
+        df.to_csv('data/willingness_{}.csv'.format(dept), index=False)
 
 
 if __name__ == '__main__':

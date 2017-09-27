@@ -228,8 +228,7 @@ def scrape():
     companies = get_data(company_data, data_mapper)
     clip_data(companies, clips)
     df = process_df(companies)
-    path = os.path.expanduser('../data')
-    df.to_csv(path, index=False)
+    df.to_csv('data/companies.csv', index=False)
 
 
 if __name__ == '__main__':

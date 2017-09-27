@@ -5,3 +5,4 @@ notebooks/*.pyc
 .nbgrader.log
 __pycache__/*
 *.csv
+data/*
