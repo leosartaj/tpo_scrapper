@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 def read_df(fname):
-    df = pd.read_csv('companies.csv', parse_dates=['branch_issue_deadline', 'exam_date', 'interview_date', 'ppt_date', 'updated_at', 'willingness_deadline'])
+    df = pd.read_csv(fname, parse_dates=['branch_issue_deadline', 'exam_date', 'interview_date', 'ppt_date', 'updated_at', 'willingness_deadline'])
     return df
 
 

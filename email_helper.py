@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 import smtplib
@@ -5,9 +6,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-ID = ''
-PASSWORD = ''
-HOST = ''
+ID = os.environ['EMAIL_ID']
+PASSWORD = os.environ['EMAIL_PASSWORD']
+HOST = os.environ['EMAIL_HOST']
 
 
 def login(host, id, password):

@@ -9,8 +9,8 @@ import pandas as pd
 
 LOGIN_URL = 'https://www.placement.iitbhu.ac.in/accounts/login'
 COMPANY_URL = 'https://www.placement.iitbhu.ac.in/company/calendar'
-USERNAME = ''
-PASSWORD = ''
+USERNAME = os.environ['TPO_USERNAME']
+PASSWORD = os.environ['TPO_PASSWORD']
 
 
 data_mapper = {
@@ -175,6 +175,7 @@ def process_packages(df):
     df.loc[:, packages] = df[packages].replace('Depending on experience', np.nan, regex=True)
     df.loc[:, packages] = df[packages].replace('Inclusive of 20% variable pay', np.nan)
     df.loc[:, packages] = df[packages].replace('Attached in JD', np.nan)
+    df.loc[:, packages] = df[packages].replace('Attached', np.nan)
 
     df.loc[:, packages] = df[packages].apply(package_value_series)
     df.loc[df.company_name == 'VMWare', ['idd_imd_ctc', 'btech_ctc']] = [2202108, 2202108]
