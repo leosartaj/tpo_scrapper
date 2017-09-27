@@ -102,7 +102,7 @@ def generate_names(name):
         i += 1
 
 
-def get_data(data_mapper):
+def get_data(company_data, data_mapper):
     companies = []
     for company_div in company_data.find_all('div', attrs={'class': 'row company'}):
         company = {}
@@ -216,7 +216,7 @@ def process_df(companies):
     return df
 
 
-if __name__ == '__main__':
+def scrape():
     session = requests.session()
     form = make_login_form(session, USERNAME, PASSWORD)
     params = {'Referer': LOGIN_URL}
@@ -224,7 +224,11 @@ if __name__ == '__main__':
     params = {'page_size': 250}
     data = session.get(COMPANY_URL, params=params)
     company_data = bs4.BeautifulSoup(data.text, 'html.parser')
-    companies = get_data(data_mapper)
+    companies = get_data(company_data, data_mapper)
     clip_data(companies, clips)
     df = process_df(companies)
     df.to_csv('companies.csv', index=False)
+
+
+if __name__ == '__main__':
+    scrape()

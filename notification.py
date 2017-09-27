@@ -40,7 +40,7 @@ def create_emails(df):
     return df.apply(email, axis=1)
 
 
-if __name__ == '__main__':
+def create_notifications():
     df = read_df('companies.csv')
     depts = ['mat', 'bce']
     for dept in depts:
@@ -48,3 +48,7 @@ if __name__ == '__main__':
         if dept == 'mat':
             dept = 'apm'
         df.to_csv('willingness_{}.csv'.format(dept), index=False)
+
+
+if __name__ == '__main__':
+    create_notifications()

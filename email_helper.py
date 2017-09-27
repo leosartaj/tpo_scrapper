@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 
 ID = ''
 PASSWORD = ''
-HOST = 'smtp.gmail.com:587'
+HOST = ''
 
 
 def login(host, id, password):
@@ -50,11 +50,18 @@ def send_emails(host, email_id, password, subscribers):
     with login(host, email_id, password) as server:
         for subscriber, dept in get_subscribers(subscribers):
             df = pd.read_csv('willingness_{}.csv'.format(dept))
+            df = df[df['email_count_willingness'] < 2]
+            df.loc[:, 'email_count_willingness'] += 1
             df.loc[:, 'subjects'] = df['company_name'].apply(lambda x: subject_msg(x))
-            for subject, msg in zip(df['subjects'], df['email_msg_willingness']):
+            df.to_csv('willingness_{}.csv'.format(dept))
+            for subject, msg, num in zip(df['subjects'], df['email_msg_willingness'], df['email_count_willingness']):
                 msg = create_msg(ID, subscriber, subject, msg)
                 send_msg(server, msg)
 
 
-if __name__ == '__main__':
+def send():
     send_emails(HOST, ID, PASSWORD, 'subscribers.txt')
+
+
+if __name__ == '__main__':
+    send()
