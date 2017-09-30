@@ -48,7 +48,7 @@ if __name__ == '__main__':
     df = read_df('companies.csv')
     depts = ['mat', 'bce']
     for dept in depts:
-        df = create_notification_df(df, dept, 'willingness_deadline', min_date=date(2017, 9, 29), suffix='willingness')
+        df = create_notification_df(df, dept, 'willingness_deadline', suffix='willingness')
         if dept == 'mat':
             dept = 'apm'
         save_df(df, 'willingness_{}.csv'.format(dept))
