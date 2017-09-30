@@ -11,8 +11,7 @@ LOGIN_URL = 'https://www.placement.iitbhu.ac.in/accounts/login'
 COMPANY_URL = 'https://www.placement.iitbhu.ac.in/company/calendar'
 USERNAME = os.environ['TPO_USERNAME']
 PASSWORD = os.environ['TPO_PASSWORD']
-
-SAVE_PATH = os.path.expanduser('~/.tpo_data')
+SAVE_PATH = os.environ['TPO_DATA']
 
 
 data_mapper = {
