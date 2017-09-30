@@ -5,6 +5,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from scrapper import SAVE_PATH
+
 
 ID = os.environ['EMAIL_ID']
 PASSWORD = os.environ['EMAIL_PASSWORD']
@@ -36,7 +38,6 @@ def get_subscribers(fname):
     subscribers = []
     with open(fname) as f:
         for subscriber in map(lambda x: x.strip(), f):
-            'sanjay.singh.bce13@itbhu.ac.in'
             dept = subscriber.split('@')[0]
             dept = dept.split('.')
             dept = dept[2][:-2]
@@ -50,18 +51,16 @@ def subject_msg(company_name):
 def send_emails(host, email_id, password, subscribers):
     with login(host, email_id, password) as server:
         for subscriber, dept in get_subscribers(subscribers):
-            df = pd.read_csv('data/willingness_{}.csv'.format(dept))
-            df = df[df['email_count_willingness'] < 2]
-            df.loc[:, 'email_count_willingness'] += 1
-            df.loc[:, 'subjects'] = df['company_name'].apply(lambda x: subject_msg(x))
-            df.to_csv('willingness_{}.csv'.format(dept))
-            for subject, msg, num in zip(df['subjects'], df['email_msg_willingness'], df['email_count_willingness']):
-                msg = create_msg(ID, subscriber, subject, msg)
-                send_msg(server, msg)
+            df = pd.read_csv('{}/willingness_{}.csv'.format(SAVE_PATH, dept))
+            if df.shape[0]:
+                df.loc[:, 'subjects'] = df['company_name'].apply(lambda x: subject_msg(x))
+                for subject, msg in zip(df['subjects'], df['email_msg_willingness']):
+                    msg = create_msg(ID, subscriber, subject, msg)
+                    send_msg(server, msg)
 
 
 def send():
-    send_emails(HOST, ID, PASSWORD, 'subscribers.txt')
+    send_emails(HOST, ID, PASSWORD, '{}/subscribers.txt'.format(SAVE_PATH))
 
 
 if __name__ == '__main__':

@@ -1,11 +1,14 @@
 import numpy as np
 import pandas as pd
 
-from datetime import datetime
+from datetime import datetime, date
+
+from scrapper import SAVE_PATH, save_df
 
 
 def read_df(fname):
-    df = pd.read_csv(fname, parse_dates=['branch_issue_deadline', 'exam_date', 'interview_date', 'ppt_date', 'updated_at', 'willingness_deadline'])
+    df_path = '{}/{}'.format(SAVE_PATH, fname)
+    df = pd.read_csv(df_path, parse_dates=['branch_issue_deadline', 'exam_date', 'interview_date', 'ppt_date', 'updated_at', 'willingness_deadline'])
     return df
 
 
@@ -20,8 +23,9 @@ def create_notification_df(df, dept, date_col, min_date=None, suffix=None):
 
     if suffix is None:
         suffix = date_col
-    notification_df.loc[:, 'email_msg_{}'.format(suffix)] = create_emails(notification_df)
-    notification_df.loc[:, 'email_count_{}'.format(suffix)] = 0
+
+    if notification_df.shape[0]:
+        notification_df.loc[:, 'email_msg_{}'.format(suffix)] = create_emails(notification_df)
     return notification_df.reset_index(drop=True)
 
 
@@ -40,15 +44,11 @@ def create_emails(df):
     return df.apply(email, axis=1)
 
 
-def create_notifications():
-    df = read_df('data/companies.csv')
+if __name__ == '__main__':
+    df = read_df('companies.csv')
     depts = ['mat', 'bce']
     for dept in depts:
-        df = create_notification_df(df, dept, 'willingness_deadline', suffix='willingness')
+        df = create_notification_df(df, dept, 'willingness_deadline', min_date=date(2017, 9, 29), suffix='willingness')
         if dept == 'mat':
             dept = 'apm'
-        df.to_csv('data/willingness_{}.csv'.format(dept), index=False)
-
-
-if __name__ == '__main__':
-    create_notifications()
+        save_df(df, 'willingness_{}.csv'.format(dept))

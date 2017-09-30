@@ -12,6 +12,8 @@ COMPANY_URL = 'https://www.placement.iitbhu.ac.in/company/calendar'
 USERNAME = os.environ['TPO_USERNAME']
 PASSWORD = os.environ['TPO_PASSWORD']
 
+SAVE_PATH = os.path.expanduser('~/.tpo_data')
+
 
 data_mapper = {
     'updated_at': 'updated_at',
@@ -218,7 +220,13 @@ def process_df(companies):
     return df
 
 
-def scrape():
+def save_df(df, fname):
+    if not os.path.exists(SAVE_PATH):
+        os.makedirs(SAVE_PATH)
+    df.to_csv('{}/{}'.format(SAVE_PATH, fname), index=False)
+
+
+if __name__ == '__main__':
     session = requests.session()
     form = make_login_form(session, USERNAME, PASSWORD)
     params = {'Referer': LOGIN_URL}
@@ -229,8 +237,4 @@ def scrape():
     companies = get_data(company_data, data_mapper)
     clip_data(companies, clips)
     df = process_df(companies)
-    df.to_csv('data/companies.csv', index=False)
-
-
-if __name__ == '__main__':
-    scrape()
+    save_df(df, 'companies.csv')
